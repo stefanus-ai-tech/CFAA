@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CFAA Adventure: Learn and Play!</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Arial', sans-serif;
+        line-height: 1.6;
+        margin: 0;
+        padding: 10px;
+        background-color: #f0f8ff;
+        color: #333;
+      }
+      .container {
+        max-width: 100%;
+        margin: auto;
+        background: white;
+        padding: 15px;
+        border-radius: 15px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      }
+      h1 {
+        font-size: 24px;
+        color: #4169e1;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+      }
+      h2 {
+        font-size: 20px;
+        color: #4169e1;
+      }
+      .section {
+        margin-bottom: 20px;
+        padding: 10px;
+        background-color: #e6f3ff;
+        border-radius: 10px;
+      }
+      .game,
+      .quiz {
+        background-color: #fffacd;
+      }
+      button {
+        background-color: #4caf50;
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 20px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
+        margin: 5px 0;
+        width: 100%;
+        touch-action: manipulation;
+      }
+      button:hover,
+      button:active {
+        background-color: #45a049;
+      }
+      .hidden {
+        display: none;
+      }
+      #result,
+      #quizResult {
+        margin-top: 10px;
+        font-weight: bold;
+      }
+      #timeline {
+        position: relative;
+        max-width: 100%;
+        margin: 0 auto;
+      }
+      .timeline-item {
+        padding: 10px 0;
+        position: relative;
+        background-color: inherit;
+        width: 100%;
+      }
+      .timeline-item::after {
+        content: '';
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        left: -10px;
+        background-color: white;
+        border: 4px solid #ff9f55;
+        top: 15px;
+        border-radius: 50%;
+        z-index: 1;
+      }
+      .content {
+        padding: 15px;
+        background-color: white;
+        position: relative;
+        border-radius: 6px;
+        margin-left: 20px;
+      }
+      @media screen and (min-width: 768px) {
+        .container {
+          padding: 20px;
+        }
+        h1 {
+          font-size: 28px;
+        }
+        h2 {
+          font-size: 24px;
+        }
+        button {
+          width: auto;
+        }
+        .timeline-item {
+          width: 50%;
+        }
+        .timeline-item:nth-child(even) {
+          left: 50%;
+        }
+        .timeline-item:nth-child(odd) .content {
+          margin-right: 20px;
+          margin-left: 0;
+        }
+        .timeline-item:nth-child(even)::after {
+          left: -10px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>🖥️ CFAA Adventure: Learn and Play! 🕵️‍♂️</h1>
+
+      <div class="section">
+        <h2>🔍 What is the CFAA?</h2>
+        <p>
+          The Computer Fraud and Abuse Act (CFAA) is a United States
+          cybersecurity law enacted in 1986 to combat computer-related crimes.
+        </p>
+        <button onclick="toggleMore('cfaaInfo')">Learn More</button>
+        <div id="cfaaInfo" class="hidden">
+          <p>Key aspects of the CFAA:</p>
+          <ul>
+            <li>Prohibits unauthorized computer access</li>
+            <li>Covers various computer-related crimes</li>
+            <li>Applies to federal and certain private computers</li>
+            <li>Provides criminal and civil penalties</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>📜 CFAA Timeline</h2>
+        <div id="timeline">
+          <div class="timeline-item">
+            <div class="content">
+              <h3>1986</h3>
+              <p>CFAA enacted to address hacking</p>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="content">
+              <h3>1994</h3>
+              <p>Amended to include civil actions</p>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="content">
+              <h3>1996</h3>
+              <p>Expanded to cover system damage and password trafficking</p>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="content">
+              <h3>2001</h3>
+              <p>USA PATRIOT Act expands CFAA scope</p>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="content">
+              <h3>2008</h3>
+              <p>Further broadened by Identity Theft Enforcement Act</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section game">
+        <h2>🎮 CFAA Violation Spotter</h2>
+        <p>Is this a CFAA violation?</p>
+        <div id="gameScenario"></div>
+        <button onclick="checkScenario('yes')">It's a Violation</button>
+        <button onclick="checkScenario('no')">Not a Violation</button>
+        <p id="result"></p>
+      </div>
+
+      <div class="section quiz">
+        <h2>🧠 CFAA Knowledge Quiz</h2>
+        <div id="quizQuestion"></div>
+        <div id="quizOptions"></div>
+        <button onclick="checkQuizAnswer()">Submit Answer</button>
+        <p id="quizResult"></p>
+      </div>
+
+      <div class="section">
+        <h2>⚖️ CFAA Penalties</h2>
+        <p>The CFAA imposes severe penalties for violations:</p>
+        <ul>
+          <li>Fines</li>
+          <li>Imprisonment (up to 10 years for first offenses)</li>
+          <li>Property forfeiture</li>
+        </ul>
+        <button onclick="toggleMore('penaltyInfo')">More on Penalties</button>
+        <div id="penaltyInfo" class="hidden">
+          <p>Penalties vary based on the violation:</p>
+          <ul>
+            <li>Accessing to obtain information: Up to 1-5 years</li>
+            <li>Accessing a government computer: Up to 1-10 years</li>
+            <li>Damaging a computer: Up to 10-20 years</li>
+            <li>Trafficking in passwords: Up to 1-10 years</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function toggleMore(id) {
+        const element = document.getElementById(id);
+        element.classList.toggle('hidden');
+      }
+
+      const scenarios = [
+        {
+          scenario:
+            "Alice guesses her coworker's password and reads their emails.",
+          answer: 'yes',
+        },
+        {
+          scenario: 'Bob accidentally clicks a link to an unintended website.',
+          answer: 'no',
+        },
+        {
+          scenario:
+            'Charlie writes a script to try common passwords on a login page.',
+          answer: 'yes',
+        },
+        {
+          scenario: 'Dana uses her login to access work files from home.',
+          answer: 'no',
+        },
+        {
+          scenario: 'Evan sells email/password combinations he found online.',
+          answer: 'yes',
+        },
+      ];
+
+      let currentScenario = 0;
+
+      function loadScenario() {
+        document.getElementById('gameScenario').textContent =
+          scenarios[currentScenario].scenario;
+        document.getElementById('result').textContent = '';
+      }
+
+      function checkScenario(answer) {
+        const result = document.getElementById('result');
+        if (answer === scenarios[currentScenario].answer) {
+          result.textContent =
+            "Correct! You're good at spotting CFAA violations!";
+          result.style.color = 'green';
+        } else {
+          result.textContent =
+            'Not quite. The CFAA is about unauthorized access.';
+          result.style.color = 'red';
+        }
+        currentScenario = (currentScenario + 1) % scenarios.length;
+        setTimeout(loadScenario, 3000);
+      }
+
+      const quizQuestions = [
+        {
+          question: 'When was the CFAA enacted?',
+          options: ['1984', '1986', '1990', '1995'],
+          answer: 1,
+        },
+        {
+          question: 'Which is NOT covered by the CFAA?',
+          options: [
+            'Unauthorized access',
+            'System damage',
+            'Hardware theft',
+            'Password trafficking',
+          ],
+          answer: 2,
+        },
+        {
+          question: 'Maximum prison sentence for a first CFAA offense?',
+          options: ['1 year', '5 years', '10 years', '20 years'],
+          answer: 2,
+        },
+      ];
+
+      let currentQuestion = 0;
+
+      function loadQuizQuestion() {
+        const question = quizQuestions[currentQuestion];
+        document.getElementById('quizQuestion').textContent = question.question;
+        const optionsHtml = question.options
+          .map(
+            (option, index) =>
+              `<label><input type="radio" name="quizOption" value="${index}">${option}</label><br>`
+          )
+          .join('');
+        document.getElementById('quizOptions').innerHTML = optionsHtml;
+        document.getElementById('quizResult').textContent = '';
+      }
+
+      function checkQuizAnswer() {
+        const selectedOption = document.querySelector(
+          'input[name="quizOption"]:checked'
+        );
+        const result = document.getElementById('quizResult');
+        if (!selectedOption) {
+          result.textContent = 'Please select an answer.';
+          return;
+        }
+        if (
+          parseInt(selectedOption.value) ===
+          quizQuestions[currentQuestion].answer
+        ) {
+          result.textContent = 'Correct! You know your CFAA facts!';
+          result.style.color = 'green';
+        } else {
+          result.textContent = 'Incorrect. Keep learning about the CFAA!';
+          result.style.color = 'red';
+        }
+        currentQuestion = (currentQuestion + 1) % quizQuestions.length;
+        setTimeout(loadQuizQuestion, 3000);
+      }
+
+      loadScenario();
+      loadQuizQuestion();
+    </script>
+  </body>
+</html>
